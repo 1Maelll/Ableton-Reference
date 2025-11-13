@@ -1,2 +1,679 @@
-# Ableton-Reference
-Ableton reference html, and JS, but JS very simple
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ableton - Instrumentos Musicales Virtuales</title>
+    
+    <style>
+        /* Estilos base y reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0000ff 0%, #87ceeb 50%, #f0f8ff 100%);
+            background-attachment: fixed;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navbar */
+        #navbar {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container-interactivo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .container-interactivo li {
+            margin: 0 10px;
+        }
+        
+        .container-interactivo a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .container-interactivo a:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .itemsblue {
+            color: #0000ff !important;
+            font-weight: bold;
+        }
+        
+        /* Contenedor principal */
+        .container-margin {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .title {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, #0000ff, #333);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .span-title1 {
+            font-weight: 300;
+        }
+        
+        .span-title2 {
+            font-weight: 700;
+        }
+        
+        .itemtext1, .itemtext2 {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .itemtext1:hover, .itemtext2:hover {
+            transform: translateY(-5px);
+        }
+        
+        .items-blue-text {
+            color: #0000ff;
+            font-weight: bold;
+        }
+        
+        /* Sección de imágenes */
+        .container-decoration-father {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .container-image-decoration2, 
+        .container-image-decoration3 {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
+        }
+        
+        .container-image-decoration2:hover, 
+        .container-image-decoration3:hover {
+            transform: scale(1.03);
+        }
+        
+        .images-decoration-2, 
+        .image-decoration3 {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Sección destacada */
+        .highlight-section {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 60px 20px;
+            margin: 60px 0;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .highlight-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #0000ff;
+        }
+        
+        .highlight-description {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+        }
+        
+        .highlight-btn {
+            background: linear-gradient(90deg, #0000ff, #4169e1);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .highlight-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(90deg, #4169e1, #0000ff);
+        }
+        
+        /* Sección de logros */
+        .container-latest-from-ableton {
+            text-align: center;
+            margin: 60px 0 30px;
+        }
+        
+        .title-the-latest-from-ableton {
+            font-size: 2.2rem;
+            color: #0000ff;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .title-the-latest-from-ableton::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #0000ff, #87ceeb);
+        }
+        
+        .container-father-achievements-ableton {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            gap: 20px;
+        }
+        
+        .container-achievements-performance,
+        .container-achievements-jason,
+        .container-achievements-tony {
+            flex: 1;
+            padding: 30px 20px;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container-achievements-performance::before,
+        .container-achievements-jason::before,
+        .container-achievements-tony::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #0000ff, #87ceeb);
+        }
+        
+        .container-achievements-performance:hover,
+        .container-achievements-jason:hover,
+        .container-achievements-tony:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .logo-artist-performance,
+        .logo-artist-jason,
+        .logo-artist-tony {
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            text-align: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0000ff, #87ceeb);
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .title-artist {
+            font-weight: bold;
+            color: #0000ff;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .description-of-achievement {
+            font-size: 1rem;
+        }
+        
+        /* Sección de enlaces */
+        .link-more {
+            margin: 50px 0;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .alternatives-within-More {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #0000ff;
+        }
+        
+        .link-more a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-bottom: 10px;
+            background: rgba(0, 0, 255, 0.1);
+        }
+        
+        .link-more a:hover {
+            background: #0000ff;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        
+        .footer-section h1, 
+        .footer-section h3 {
+            margin-bottom: 20px;
+            color: #87ceeb;
+        }
+        
+        .footer-section a {
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #87ceeb;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            margin-top: 15px;
+        }
+        
+        .input-email-footer {
+            padding: 12px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            flex-grow: 1;
+            font-size: 1rem;
+        }
+        
+        .btn-subscribe {
+            background: linear-gradient(90deg, #0000ff, #4169e1);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+        
+        .btn-subscribe:hover {
+            background: linear-gradient(90deg, #4169e1, #0000ff);
+        }
+        
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 20px;
+            border-top: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #87ceeb;
+        }
+        
+        .copyright {
+            color: #87ceeb;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container-decoration-father {
+                grid-template-columns: 1fr;
+            }
+            
+            .container-father-achievements-ableton {
+                flex-direction: column;
+            }
+            
+            .container-interactivo {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .footer-links a {
+                margin: 0 10px 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="navbar">
+        <div>              
+            <ul class="container-interactivo">
+                <li><a href="Inicio.html" class="item1">Inicio</a></li>
+                <li><a href="Live.html" class="item1">Live</a></li>
+                <li><a href="Push.html" class="item1">Push</a></li>
+                <li><a href="Link.html" class="item1">Link</a></li> 
+                <li><a href="Shop.html" class="item1">Shop</a></li>  
+                <li><a href="Pack.html" class="item1">Pack</a></li>
+                <li><a href="Help.html" class="item1">Help</a></li>
+                <li><a href="More.html" class="item1">More +</a></li>                  
+                <li><a href="Try-Live-For-Free.html" class="itemsblue">Try Live For Free</a></li>
+                <li><a href="Account.html" class="item1">Account</a></li>
+                <li><a href="Log-Out.html" class="item1">Log Out</a></li>
+            </ul>     
+        </div>
+    </header>
+
+    <div class="container-margin">
+        <h1 class="title"><span class="span-title1">About</span> <span class="span-title2">Jobs</span></h1>
+        
+        <div class="itemtext1">    
+            <p>We make <span class="items-blue-text">Live</span>, <span class="items-blue-text">Push</span> and <span class="items-blue-text">Link</span> -- unique software and hardware for music creation and performance. With these products, our community of users creates amazing things</p>
+        </div> 
+        
+        <div class="itemtext2">
+            <p>Ableton was founded in 1999 and released the first version of Live in 2001. Our products are used by community of dedicated musicians, sound designers, and artists from across the world.</p>
+        </div>
+
+        <section class="container-decoration-father">
+            <div class="container-image-decoration2">
+                <img src="https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Ableton design image" title="ableton design image" class="images-decoration-2">
+            </div>
+            <div class="container-image-decoration3">
+                <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" title="ableton product image" class="image-decoration3" alt="Ableton product">
+            </div>
+        </section>
+    </div>
+    
+    <!-- Nueva sección destacada -->
+    <section class="highlight-section">
+        <h2 class="highlight-title">Create Without Limits</h2>
+        <p class="highlight-description">Ableton Live is the fast, fluid, and flexible software for music creation and performance. It comes with effects, instruments, sounds, and all kinds of creative features—everything you need to make any kind of music.</p>
+        <button class="highlight-btn" id="learnMoreBtn">Learn More About Live</button>
+    </section>
+    
+    <div class="container-latest-from-ableton">
+      <h2 class="title-the-latest-from-ableton">The Latest From Ableton</h2>
+    </div> 
+    
+
+    <div class="container-father-achievements-ableton">
+
+     <div class="container-achievements-performance">
+    <span class="logo-artist-performance">A</span>
+     <p class="title-artist">Artists</p>  
+      <p class="description-of-achievement">Approaches to Live Performance: With Ouri, Martyn Bootyspoon, and Yu Su</p>    
+    </div>
+
+     <div class="container-achievements-jason">
+    <span class="logo-artist-jason">L</span>
+     <p class="title-artist">Artists</p>
+     <p  class="description-of-achievement">Jason Graves: Plumbing the Depths</p>
+      </div>
+
+    <div class="container-achievements-tony">
+     <span class="logo-artist-tony">E</span>
+     <p class="title-artist">Artists</p>
+     <p class="description-of-achievement">Tony Seltzer And Anysia Kym: Unrevelling The philostrophy</p>
+    </div>
+  </div>
+
+
+
+
+    <div class="container-father-achievements-ableton">
+
+     <div class="container-achievements-performance">
+    <span class="logo-artist-performance">S</span>
+     <p class="title-artist">Artists</p>  
+      <p class="description-of-achievement">Skrillex: The Audio Surgeon and the King of Controlled Chaos</p>    
+    </div>
+
+     <div class="container-achievements-jason">
+    <span class="logo-artist-jason">D</span>
+     <p class="title-artist">Artists</p>
+     <p  class="description-of-achievement">David Guetta: El Puente entre el Estudio y el Mainstage</p>
+      </div>
+
+    <div class="container-achievements-tony">
+     <span class="logo-artist-tony">A</span>
+     <p class="title-artist">Artists</p>
+     <p class="description-of-achievement">Aphex Twin: El Alquimista del Error y la Exploración</p>
+    </div>
+</div>
+
+
+<div class="link-more">
+    <span class="alternatives-within-More">More</span> 
+    <a href="#">All post</a> 
+    <a href="#">Artist</a> 
+    <a href="#">New</a> 
+    <a href="#">Downloads</a> 
+    <a href="#">Tutorials</a> 
+    <a href="#">Videos</a>
+    <a href="#">Loop</a>
+    <a href="#">One Things</a>
+</div>
+
+<footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h1 class="title-footer">Ableton</h1>
+                <div class="newsletter">
+                    <span>Sign up to our newsletter</span>
+                    <p>Enter your email address to stay up to date with the latest offers, tutorials, downloads, surveys and more.</p>
+                    <div class="newsletter-form">
+                        <input type="email" class="input-email-footer" placeholder="tucorreo@gmail.com" required minlength="8">
+                        <button class="btn-subscribe">Sign up</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="collapsible-toggle">Products</h3>
+                <div class="collapsible-content">
+                    <a href="#">Live</a>
+                    <a href="#">Push</a>
+                    <a href="#">Link</a>
+                    <a href="#">Shop</a>
+                    <a href="#">Packs</a>
+                    <a href="#">Help</a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="collapsible-toggle">Education</h3>
+                <div class="collapsible-content">
+                    <a href="#">For students and teachers</a> 
+                    <a href="#">Ableton for the classroom</a>
+                    <a href="#">Ableton for Colleges and Universities </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="collapsible-toggle">Community</h3>
+                <div class="collapsible-content">
+                    <a href="#">Find Ableton User Groups </a>
+                    <a href="#">Find Certified Training </a>
+                    <a href="#">Become a Certified Trainer </a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3 class="collapsible-toggle">Language and Location</h3>
+                <div class="collapsible-content">
+                    <p>Language: English</p>
+                    <p>Location: United States</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-links">
+                <a href="#">Contact Us</a>
+                <a href="#">Press Resources</a>
+                <a href="#">Legal Info</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Settings</a>
+                <a href="#">Imprint</a>
+            </div>
+            <div class="copyright">
+                Made with ♥ by Ableton
+            </div>
+        </div>
+    </footer> 
+
+    <script>
+        // JavaScript para mejorar la interactividad
+        
+        // Efecto de scroll suave para los enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId !== '#') {
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Animación para las tarjetas de artistas
+        document.querySelectorAll('.container-achievements-performance, .container-achievements-jason, .container-achievements-tony').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 15px 30px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 5px 15px rgba(0,0,0,0.1)';
+            });
+        });
+        
+        // Funcionalidad para el botón "Learn More"
+        document.getElementById('learnMoreBtn').addEventListener('click', function() {
+            alert('Redirigiendo a la página de Live...');
+            // En una implementación real, aquí iría: window.location.href = 'Live.html';
+        });
+        
+        // Funcionalidad para el formulario de newsletter
+        document.querySelector('.btn-subscribe').addEventListener('click', function() {
+            const emailInput = document.querySelector('.input-email-footer');
+            const email = emailInput.value;
+            
+            if(email && email.includes('@')) {
+                alert(`¡Gracias por suscribirte con el email: ${email}!`);
+                emailInput.value = '';
+            } else {
+                alert('Por favor, introduce un email válido.');
+            }
+        });
+        
+        // Efecto de carga suave para las imágenes
+        window.addEventListener('load', function() {
+            document.querySelectorAll('img').forEach(img => {
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.5s ease';
+                
+                // Simular carga de imagen
+                setTimeout(() => {
+                    img.style.opacity = '1';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
